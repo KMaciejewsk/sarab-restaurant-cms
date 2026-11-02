@@ -1,0 +1,100 @@
+      <!-- Main Sidebar Container -->
+      <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+        <!-- Sidebar Brand -->
+        <div class="sidebar-brand">
+          <a href="/admin" class="brand-link d-flex align-items-center justify-content-between px-3 w-100 text-decoration-none">
+            <div class="d-flex align-items-center gap-2">
+              <i class="fas fa-utensils text-danger fs-5"></i>
+              <span class="brand-text fw-bold fs-5 text-white">Sarab <span class="badge-brand">CMS</span></span>
+            </div>
+          </a>
+        </div>
+
+        <!-- Sidebar Wrapper -->
+        <div class="sidebar-wrapper">
+          <nav class="mt-3">
+            <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
+              
+              <!-- Pulpit -->
+              <li class="nav-item">
+                <a href="/admin" class="nav-link <%= activeTab === 'dashboard' ? 'active bg-danger text-white' : '' %>">
+                  <i class="nav-icon bi bi-speedometer2"></i>
+                  <p>Pulpit Główny</p>
+                </a>
+              </li>
+
+              <!-- SEKCJA: ZARZADZANIE DANYMI (Dla Pracownika i Wlasciciela) -->
+              <li class="nav-header text-uppercase text-secondary fs-7 mt-3">Obsługa Restauracji</li>
+
+              <li class="nav-item">
+                <a href="/admin/menu" class="nav-link <%= activeTab === 'menu' ? 'active bg-danger text-white' : '' %>">
+                  <i class="nav-icon bi bi-card-list"></i>
+                  <p>Karta Menu & Danie Dnia</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="/admin/reservations" class="nav-link <%= activeTab === 'reservations' ? 'active bg-danger text-white' : '' %>">
+                  <i class="nav-icon bi bi-calendar-check"></i>
+                  <p>Rezerwacje stolików</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="/admin/hours" class="nav-link <%= activeTab === 'hours' ? 'active bg-danger text-white' : '' %>">
+                  <i class="nav-icon bi bi-clock-history"></i>
+                  <p>Godziny otwarcia</p>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a href="/admin/messages" class="nav-link <%= activeTab === 'messages' ? 'active bg-danger text-white' : '' %>">
+                  <i class="nav-icon bi bi-envelope"></i>
+                  <p>Wiadomości od klientów</p>
+                </a>
+              </li>
+
+              <!-- SEKCJA: DLA WLASCICIELA (Role: owner) -->
+              <% if (currentUser && currentUser.role === 'owner') { %>
+                <li class="nav-header text-uppercase text-secondary fs-7 mt-3">Panel Właściciela</li>
+
+                <li class="nav-item">
+                  <a href="/admin/reviews" class="nav-link <%= activeTab === 'reviews' ? 'active bg-danger text-white' : '' %>">
+                    <i class="nav-icon bi bi-star"></i>
+                    <p>Opinie i Recenzje</p>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a href="/admin/chefs" class="nav-link <%= activeTab === 'chefs' ? 'active bg-danger text-white' : '' %>">
+                    <i class="nav-icon bi bi-people"></i>
+                    <p>Szefowie kuchni</p>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a href="/admin/settings" class="nav-link <%= activeTab === 'settings' ? 'active bg-danger text-white' : '' %>">
+                    <i class="nav-icon bi bi-sliders"></i>
+                    <p>Dane restauracji</p>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a href="/admin/users" class="nav-link <%= activeTab === 'users' ? 'active bg-danger text-white' : '' %>">
+                    <i class="nav-icon bi bi-person-gear"></i>
+                    <p>Użytkownicy i role</p>
+                  </a>
+                </li>
+              <% } %>
+
+              <li class="nav-header mt-4"></li>
+              <li class="nav-item">
+                <a href="/admin/logout" class="nav-link text-danger">
+                  <i class="nav-icon bi bi-box-arrow-left"></i>
+                  <p>Wyloguj się</p>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </aside>

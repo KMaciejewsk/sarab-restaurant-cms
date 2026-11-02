@@ -1,0 +1,202 @@
+<%- include('partials/header', { title: 'Pulpit Główny | Sarab CMS' }) %>
+<%- include('partials/navbar') %>
+<%- include('partials/sidebar', { activeTab: 'dashboard' }) %>
+
+<main class="app-main">
+  <!-- Naglowek strony -->
+  <div class="app-content-header py-3 border-bottom mb-4 bg-white">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="col-sm-6">
+          <h3 class="mb-0 fw-bold">Pulpit Główny</h3>
+          <p class="text-muted small mb-0">Witaj ponownie, <strong><%= currentUser.full_name %></strong> (<%= currentUser.role === 'owner' ? 'Właściciel' : 'Pracownik' %>)!</p>
+        </div>
+        <div class="col-sm-6 text-sm-end">
+          <a href="/admin/menu" class="btn btn-sm btn-sarab me-2"><i class="bi bi-plus-circle me-1"></i> Zarządzaj menu</a>
+          <a href="/admin/reservations" class="btn btn-sm btn-outline-secondary"><i class="bi bi-calendar-check me-1"></i> Zobacz rezerwacje</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tresc strony -->
+  <div class="app-content">
+    <div class="container-fluid">
+      
+      <!-- Karty ze statystykami -->
+      <div class="row g-3 mb-4">
+        <div class="col-12 col-sm-6 col-xl-3">
+          <div class="info-box shadow-sm border-0 rounded-3">
+            <span class="info-box-icon text-bg-danger shadow-sm"><i class="bi bi-card-list"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text text-muted">Dania w karcie</span>
+              <span class="info-box-number fs-4 fw-bold"><%= stats.dishesCount %></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-3">
+          <div class="info-box shadow-sm border-0 rounded-3">
+            <span class="info-box-icon text-bg-warning shadow-sm"><i class="bi bi-calendar-event"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text text-muted">Oczekujące rezerwacje</span>
+              <span class="info-box-number fs-4 fw-bold"><%= stats.pendingReservations %></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-3">
+          <div class="info-box shadow-sm border-0 rounded-3">
+            <span class="info-box-icon text-bg-success shadow-sm"><i class="bi bi-fire"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text text-muted">Danie Dnia</span>
+              <span class="info-box-number fs-6 text-truncate" title="<%= stats.dailyDish ? stats.dailyDish.name : 'Brak' %>">
+                <%= stats.dailyDish ? stats.dailyDish.name : 'Nie ustawiono' %>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-xl-3">
+          <div class="info-box shadow-sm border-0 rounded-3">
+            <span class="info-box-icon text-bg-primary shadow-sm"><i class="bi bi-chat-left-dots"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text text-muted">Nowe wiadomości</span>
+              <span class="info-box-number fs-4 fw-bold"><%= stats.unreadMessages %></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabele z najnowszymi zgloszeniami -->
+      <div class="row g-4">
+        <!-- Ostatnie rezerwacje stolikow -->
+        <div class="col-lg-7">
+          <div class="card shadow-sm border-0 rounded-3 h-100">
+            <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+              <h5 class="card-title fw-bold mb-0"><i class="bi bi-calendar-check text-danger me-2"></i>Najnowsze rezerwacje</h5>
+              <a href="/admin/reservations" class="btn btn-sm btn-outline-danger">Wszystkie rezerwacje</a>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                  <thead class="table-light">
+                    <tr>
+                      <th>Klient</th>
+                      <th>Liczba osób</th>
+                      <th>Termin</th>
+                      <th>Status</th>
+                      <th class="text-end">Akcja</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% if (recentReservations.length === 0) { %>
+                      <tr><td colspan="5" class="text-center py-4 text-muted">Brak rezerwacji w systemie</td></tr>
+                    <% } else { %>
+                      <% recentReservations.forEach(r => { %>
+                        <tr>
+                          <td>
+                            <strong><%= r.full_name %></strong><br />
+                            <small class="text-muted"><%= r.phone %></small>
+                          </td>
+                          <td><span class="badge text-bg-light border"><%= r.guests %> os.</span></td>
+                          <td>
+                            <small class="fw-semibold"><%= r.reservation_date %></small><br />
+                            <small class="text-muted"><%= r.reservation_time %></small>
+                          </td>
+                          <td>
+                            <% if (r.status === 'confirmed') { %>
+                              <span class="badge text-bg-success">Potwierdzona</span>
+                            <% } else if (r.status === 'cancelled') { %>
+                              <span class="badge text-bg-danger">Odrzucona</span>
+                            <% } else { %>
+                              <span class="badge text-bg-warning">Oczekuje</span>
+                            <% } %>
+                          </td>
+                          <td class="text-end">
+                            <% if (r.status === 'pending') { %>
+                              <form action="/admin/reservations/status/<%= r.id %>" method="POST" class="d-inline">
+                                <input type="hidden" name="status" value="confirmed" />
+                                <button type="submit" class="btn btn-sm btn-success" title="Potwierdź"><i class="bi bi-check-lg"></i></button>
+                              </form>
+                              <form action="/admin/reservations/status/<%= r.id %>" method="POST" class="d-inline">
+                                <input type="hidden" name="status" value="cancelled" />
+                                <button type="submit" class="btn btn-sm btn-danger" title="Odrzuć"><i class="bi bi-x-lg"></i></button>
+                              </form>
+                            <% } else { %>
+                              <span class="text-muted small">Obsłużono</span>
+                            <% } %>
+                          </td>
+                        </tr>
+                      <% }) %>
+                    <% } %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Opinie oczekujace na moderacje (lub wiadomosci) -->
+        <div class="col-lg-5">
+          <div class="card shadow-sm border-0 rounded-3 h-100">
+            <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+              <h5 class="card-title fw-bold mb-0">
+                <% if (currentUser.role === 'owner') { %>
+                  <i class="bi bi-star-half text-warning me-2"></i>Opinie do zatwierdzenia
+                <% } else { %>
+                  <i class="bi bi-envelope text-primary me-2"></i>Ostatnie zapytania
+                <% } %>
+              </h5>
+              <% if (currentUser.role === 'owner') { %>
+                <a href="/admin/reviews" class="btn btn-sm btn-outline-warning">Zarządzaj opiniami</a>
+              <% } else { %>
+                <a href="/admin/messages" class="btn btn-sm btn-outline-primary">Wiadomości</a>
+              <% } %>
+            </div>
+            <div class="card-body">
+              <% if (currentUser.role === 'owner') { %>
+                <% if (pendingReviews.length === 0) { %>
+                  <div class="text-center py-4 text-muted">
+                    <i class="bi bi-check2-circle fs-1 text-success d-block mb-2"></i>
+                    Brak opinii czekających na zatwierdzenie. Wszystkie są zmoderowane!
+                  </div>
+                <% } else { %>
+                  <ul class="list-group list-group-flush">
+                    <% pendingReviews.forEach(rev => { %>
+                      <li class="list-group-item px-0 py-3">
+                        <div class="d-flex justify-content-between align-items-start mb-1">
+                          <strong class="text-dark"><%= rev.author_name %></strong>
+                          <span class="text-warning small">
+                            <% for (let i = 0; i < rev.rating; i++) { %>★<% } %>
+                          </span>
+                        </div>
+                        <p class="small text-muted mb-2">"<%= rev.comment %>"</p>
+                        <div class="d-flex gap-2">
+                          <form action="/admin/reviews/approve/<%= rev.id %>" method="POST" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-success py-1"><i class="bi bi-check-circle me-1"></i> Zatwierdź na stronę</button>
+                          </form>
+                          <form action="/admin/reviews/delete/<%= rev.id %>" method="POST" class="d-inline" onsubmit="return confirm('Czy na pewno chcesz usunąć tę opinię?');">
+                            <button type="submit" class="btn btn-sm btn-outline-danger py-1"><i class="bi bi-trash"></i></button>
+                          </form>
+                        </div>
+                      </li>
+                    <% }) %>
+                  </ul>
+                <% } %>
+              <% } else { %>
+                <div class="alert alert-light border">
+                  <h6><i class="bi bi-info-circle me-1"></i> Rola Pracownika</h6>
+                  <p class="small text-muted mb-0">Masz pełny dostęp do edycji karty menu, oznaczania dania dnia, aktualizacji godzin otwarcia oraz obsługi rezerwacji stolików.</p>
+                </div>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<%- include('partials/footer') %>

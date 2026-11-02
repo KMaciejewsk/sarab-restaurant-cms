@@ -1,0 +1,13 @@
+<div class="subpage-banner text-center py-5" style="background: linear-gradient(rgba(26,26,26,0.85), rgba(26,26,26,0.85)), url('/img/banner-img.jpg') center/cover no-repeat;">
+   <div class="container py-4">
+      <span class="slbl text-uppercase" style="color:var(--secondary); font-weight:700; font-size:0.85rem; letter-spacing:2px;"><%= typeof subtitle !== 'undefined' ? subtitle : 'Sarab Restaurant' %></span>
+      <h1 class="stitle text-white mt-2 mb-3"><%= typeof pageTitle !== 'undefined' ? pageTitle : title %></h1>
+      <div class="sline mx-auto mb-3"></div>
+      <nav aria-label="breadcrumb">
+         <ol class="breadcrumb justify-content-center mb-0">
+            <li class="breadcrumb-item"><a href="/" style="color:rgba(255,255,255,0.7); text-decoration:none;">Home</a></li>
+            <li class="breadcrumb-item active text-white" aria-current="page"><%= typeof breadcrumb !== 'undefined' ? breadcrumb : pageTitle %></li>
+         </ol>
+      </nav>
+   </div>
+</div>

@@ -1,0 +1,137 @@
+<%- include('../partials/header', { title: (dish ? 'Edycja Dania' : 'Nowe Danie') + ' | Sarab CMS' }) %>
+<%- include('../partials/navbar') %>
+<%- include('../partials/sidebar', { activeTab: 'menu' }) %>
+
+<main class="app-main">
+  <div class="app-content-header py-3 border-bottom mb-4 bg-white">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="col-sm-6">
+          <h3 class="mb-0 fw-bold">
+            <i class="bi <%= dish ? 'bi-pencil-square' : 'bi-plus-circle' %> text-danger me-2"></i>
+            <%= dish ? 'Edytuj Danie: ' + dish.name : 'Dodaj Nowe Danie do Menu' %>
+          </h3>
+          <p class="text-muted small mb-0">Uzupełnij formularz poniżej, aby zaktualizować kartę dań na stronie</p>
+        </div>
+        <div class="col-sm-6 text-sm-end">
+          <a href="/admin/menu" class="btn btn-sm btn-outline-secondary"><i class="bi bi-arrow-left me-1"></i> Wróć do listy menu</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-content">
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-lg-9">
+          <div class="card shadow-sm border-0 rounded-3">
+            <div class="card-header bg-white py-3">
+              <h5 class="card-title fw-bold mb-0">Informacje o potrawie</h5>
+            </div>
+            
+            <form action="<%= dish ? '/admin/menu/edit/' + dish.id : '/admin/menu/new' %>" method="POST" class="card-body p-4">
+              <div class="row g-3">
+                
+                <!-- Nazwa dania -->
+                <div class="col-md-8">
+                  <label class="form-label fw-semibold">Nazwa potrawy *</label>
+                  <input type="text" name="name" class="form-control" value="<%= dish ? dish.name : '' %>" placeholder="np. Truffle Burger Deluxe" required />
+                </div>
+
+                <!-- Kategoria -->
+                <div class="col-md-4">
+                  <label class="form-label fw-semibold">Kategoria *</label>
+                  <select name="category_id" class="form-select" required>
+                    <% categories.forEach(cat => { %>
+                      <option value="<%= cat.id %>" <%= (dish && dish.category_id === cat.id) ? 'selected' : '' %>>
+                        <%= cat.name %>
+                      </option>
+                    <% }) %>
+                  </select>
+                </div>
+
+                <!-- Cena i Stara cena -->
+                <div class="col-md-4">
+                  <label class="form-label fw-semibold">Cena ($) *</label>
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input type="number" step="0.01" name="price" class="form-control" value="<%= dish ? dish.price : '' %>" placeholder="14.99" required />
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <label class="form-label fw-semibold">Stara cena ($) <small class="text-muted">(promocja)</small></label>
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input type="number" step="0.01" name="old_price" class="form-control" value="<%= (dish && dish.old_price) ? dish.old_price : '' %>" placeholder="18.99" />
+                  </div>
+                </div>
+
+                <div class="col-md-4">
+                  <label class="form-label fw-semibold">Wyróżnienie / Badge</label>
+                  <input type="text" name="badge" class="form-control" value="<%= (dish && dish.badge) ? dish.badge : '' %>" placeholder="np. Hot, New, Chef's Pick" />
+                </div>
+
+                <!-- Zdjecie -->
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Ścieżka do zdjęcia *</label>
+                  <input type="text" name="image" class="form-control" value="<%= dish ? dish.image : '/img/menu/1.jpg' %>" placeholder="/img/menu/1.jpg" required />
+                  <div class="form-text">Dostępne w szablonie: <code>/img/menu/1.jpg</code> do <code>6.jpg</code></div>
+                </div>
+
+                <!-- Tagi -->
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Tagi (oddzielone przecinkami)</label>
+                  <input type="text" name="tags" class="form-control" value="<%= (dish && dish.tags) ? dish.tags : 'Spicy,Bestseller' %>" placeholder="np. Spicy,Vegetarian,Crispy" />
+                </div>
+
+                <!-- Kalorie i czas przygotowania -->
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Kalorie (kcal)</label>
+                  <input type="number" name="calories" class="form-control" value="<%= (dish && dish.calories) ? dish.calories : 600 %>" />
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Czas przygotowania (minuty)</label>
+                  <input type="number" name="prep_time" class="form-control" value="<%= (dish && dish.prep_time) ? dish.prep_time : 15 %>" />
+                </div>
+
+                <!-- Krotki opis -->
+                <div class="col-12">
+                  <label class="form-label fw-semibold">Krótki opis (na kafelku)</label>
+                  <input type="text" name="short_desc" class="form-control" value="<%= (dish && dish.short_desc) ? dish.short_desc : '' %>" placeholder="Krótkie streszczenie składników..." />
+                </div>
+
+                <!-- Pelny opis -->
+                <div class="col-12">
+                  <label class="form-label fw-semibold">Pełny opis (w okienku popup)</label>
+                  <textarea name="description" class="form-control" rows="3" placeholder="Szczegółowy opis potrawy, sposobu podania i alergenów..."><%= dish ? dish.description : '' %></textarea>
+                </div>
+
+                <!-- Danie dnia checkbox -->
+                <div class="col-12">
+                  <div class="form-check form-switch mt-2">
+                    <input class="form-check-input" type="checkbox" name="is_dish_of_the_day" id="dailyCheck" value="1" <%= (dish && dish.is_dish_of_the_day) ? 'checked' : '' %> />
+                    <label class="form-check-label fw-bold text-danger" for="dailyCheck">
+                      <i class="bi bi-fire me-1"></i> Ustaw jako Danie Dnia (będzie wyróżnione na stronie głównej i w menu)
+                    </label>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="d-flex justify-content-end gap-2 mt-4 pt-3 border-top">
+                <a href="/admin/menu" class="btn btn-outline-secondary">Anuluj</a>
+                <button type="submit" class="btn btn-sarab px-4">
+                  <i class="bi bi-check-lg me-1"></i> <%= dish ? 'Zapisz zmiany' : 'Dodaj danie' %>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<%- include('../partials/footer') %>

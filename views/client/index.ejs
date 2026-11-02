@@ -1,0 +1,302 @@
+<%- include('partials/header') %>
+
+<section id="hero">
+   <div class="hs hs1"></div>
+   <div class="hs hs2"></div>
+   <div class="hbgtxt">FOOD</div>
+   <div class="container">
+      <div class="row align-items-center g-5" style="min-height:88vh;">
+         <div class="col-lg-6">
+            <div class="hbadge">
+               <div class="hbi"><i class="fas fa-star"></i></div>
+               <span>#1 Rated Fast Food Restaurant in New York</span>
+            </div>
+            <h1 class="htitle">Delicious <span class="hl">Fast Food</span><br/>for Every Moment</h1>
+            <p class="hdesc">Experience bold flavors crafted from premium ingredients. From crispy burgers to gourmet pizzas - every bite is an adventure worth savoring.</p>
+            <div class="d-flex flex-wrap gap-3 mb-2">
+               <a href="/menu" class="btn-red"><i class="fas fa-utensils"></i>Explore Menu</a>
+               <a href="https://www.youtube.com/watch?v=RXv_uIN6e-Y" class="magnific_popup btn-play popup-youtube">
+                  <div class="pico"><i class="fas fa-play"></i></div>
+                  <span>Watch Our Story</span>
+               </a>
+            </div>
+            <div class="hstats d-flex gap-3 flex-wrap mt-4">
+               <div class="hstat"><span class="snum">850<em>+</em></span><small>Happy Customers</small></div>
+               <div class="sdiv"></div>
+               <div class="hstat"><span class="snum">120<em>+</em></span><small>Menu Items</small></div>
+               <div class="sdiv"></div>
+               <div class="hstat"><span class="snum">15<em>+</em></span><small>Expert Chefs</small></div>
+               <div class="sdiv"></div>
+               <div class="hstat"><span class="snum">12<em>yr</em></span><small>Experience</small></div>
+            </div>
+         </div>
+         <div class="col-lg-6">
+            <div style="position:relative;text-align:center;">
+               <div class="hcircle">
+                  <img src="/img/banner-img.jpg" alt="Burger"/>
+               </div>
+               <div class="fcard fc1">
+                  <div class="fcoi r"><i class="fas fa-fire"></i></div>
+                  <div><span class="fcnum">Hot Deal</span><span class="fcsm">30% off today</span></div>
+               </div>
+               <div class="fcard fc2">
+                  <div class="fcoi y"><i class="fas fa-star"></i></div>
+                  <div><span class="fcnum">4.9/5</span><span class="fcsm">2k+ reviews</span></div>
+               </div>
+               <div class="fcard fc3">
+                  <div class="fcoi g"><i class="fas fa-clock"></i></div>
+                  <div><span class="fcnum">20 min</span><span class="fcsm">Fast delivery</span></div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+
+<div class="mqsec">
+   <div class="mqtrack">
+      <div class="mqitem"><i class="fas fa-circle"></i>Crispy Fried Chicken</div>
+      <div class="mqitem"><i class="fas fa-circle"></i>Gourmet Burgers</div>
+      <div class="mqitem"><i class="fas fa-circle"></i>Artisan Pizzas</div>
+      <div class="mqitem"><i class="fas fa-circle"></i>Fresh Wraps &amp; Rolls</div>
+      <div class="mqitem"><i class="fas fa-circle"></i>Loaded Fries</div>
+      <div class="mqitem"><i class="fas fa-circle"></i>Ice Cream Shakes</div>
+      <div class="mqitem"><i class="fas fa-circle"></i>Grilled Sandwiches</div>
+   </div>
+</div>
+
+<!-- DYNAMIC CATEGORIES -->
+<section id="category">
+   <div class="container">
+      <div class="text-center mb-5" data-aos="fade-up">
+         <span class="slbl">What We Offer</span>
+         <h2 class="stitle">Browse by <span>Category</span></h2>
+         <div class="sline"></div>
+         <p class="sdesc mx-auto" style="max-width:480px;">From sizzling burgers to exotic world cuisines - find your favourite in our menu</p>
+      </div>
+      <div class="row g-3 justify-content-center">
+         <div class="col-6 col-sm-4 col-md-3 col-lg-2" data-aos="zoom-in" data-aos-delay="0">
+            <div class="catcard active" data-filter="all">
+               <img class="catimg" src="/img/category/1.jpg" alt="All"/>
+               <div class="catnm">All Items</div>
+               <div class="catct"><%= dishes.length %> items</div>
+            </div>
+         </div>
+         <% categories.forEach((cat, idx) => { %>
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2" data-aos="zoom-in" data-aos-delay="<%= (idx + 1) * 70 %>">
+               <div class="catcard" data-filter="<%= cat.slug %>">
+                  <img class="catimg" src="<%= cat.image %>" alt="<%= cat.name %>"/>
+                  <div class="catnm"><%= cat.name %></div>
+                  <div class="catct"><%= cat.item_count_label %></div>
+               </div>
+            </div>
+         <% }) %>
+      </div>
+   </div>
+</section>
+
+<!-- About Section Preview -->
+<section id="about">
+   <div class="container">
+      <div class="row align-items-center g-5">
+         <div class="col-lg-5" data-aos="fade-right">
+            <div class="astack">
+               <div class="aexp"><span class="anum">12+</span><small>Years of<br/>Excellence</small></div>
+               <div class="amain"><img src="/img/about1.jpg" alt="Restaurant"/></div>
+               <div class="asm"><img src="/img/about2.jpg" alt=""/></div>
+            </div>
+         </div>
+         <div class="col-lg-7" data-aos="fade-left">
+            <span class="slbl">Our Story</span>
+            <h2 class="stitle text-start">We Invite You to Visit<br/>Our <span>Food Restaurant</span></h2>
+            <div class="sline lft"></div>
+            <p class="sdesc mb-4">Founded in 2012, Sarab began as a small corner joint with a big dream - to serve food that brings people together. Today we're proud to serve thousands of happy customers every week with the same passion that started it all.</p>
+            <div class="mb-4">
+               <div class="fti">
+                  <div class="ftico r"><i class="fas fa-leaf"></i></div>
+                  <div>
+                     <h6>100% Fresh Ingredients</h6>
+                     <p>We source locally and sustainably. Every ingredient is hand-picked daily for maximum freshness.</p>
+                  </div>
+               </div>
+               <div class="fti">
+                  <div class="ftico y"><i class="fas fa-award"></i></div>
+                  <div>
+                     <h6>Master Chefs &amp; Artisans</h6>
+                     <p>Our kitchen team brings together decades of culinary expertise from top kitchens across the globe.</p>
+                  </div>
+               </div>
+            </div>
+            <div class="d-flex align-items-center gap-4 flex-wrap">
+               <a href="/about" class="btn-red"><i class="fas fa-info-circle"></i>Discover More</a>
+               <div class="d-flex align-items-center gap-3">
+                  <div class="auser"><i class="fas fa-phone-alt"></i></div>
+                  <div><span style="font-size:.78rem;color:#888;display:block;">Call For Orders</span><strong style="font-size:.95rem;color:var(--dark);"><%= (typeof info !== 'undefined' && info.phone) ? info.phone : '+1 (800) 123-4567' %></strong></div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+
+<!-- Special Offer -->
+<section id="special">
+   <div class="spbg"></div>
+   <div class="container" style="position:relative;z-index:2;">
+      <div class="row align-items-center g-5">
+         <div class="col-lg-6" data-aos="fade-right">
+            <div class="sptag"><i class="fas fa-bolt me-1"></i>Limited Time Offer</div>
+            <h2 class="sptitle">Get 30% Off<br/>Our Signature<br/><span>Burger</span> Meal</h2>
+            <p class="spdesc">Don't miss our weekend special - grab our award-winning signature burger combo with loaded fries and a premium shake at an unbeatable price.</p>
+            <div class="cdwrap">
+               <div class="cditem"><span class="cdnum" id="cdH">08</span><span class="cdlbl">Hours</span></div>
+               <div class="cditem"><span class="cdnum" id="cdM">45</span><span class="cdlbl">Minutes</span></div>
+               <div class="cditem"><span class="cdnum" id="cdS">30</span><span class="cdlbl">Seconds</span></div>
+            </div>
+            <a href="/menu" class="btn-red"><i class="fas fa-shopping-cart"></i>Grab the Deal</a>
+         </div>
+         <div class="col-lg-6" data-aos="fade-left">
+            <div class="spimgw">
+               <div class="spglow"></div>
+               <div class="sppbdg"><span class="old">$24.99</span><span class="np">$17.49</span></div>
+               <img src="/img/off-img.jpg" alt="Special Burger"/>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+
+<!-- Popular Menu Preview -->
+<div class="text-center pt-5 pb-2" style="background:#fff;">
+   <span class="slbl">Taste The Best</span>
+   <h2 class="stitle">Popular <span>Dishes</span></h2>
+   <div class="sline"></div>
+   <p class="sdesc mx-auto" style="max-width:480px;">A hand-picked selection of our crowd favorites, made fresh on order every single day.</p>
+</div>
+
+<section id="menu">
+   <div class="container">
+      <div class="row g-4" id="mgrid">
+         <% dishes.forEach((dish, idx) => { %>
+            <div class="col-sm-6 col-lg-4 mwrap" data-c="<%= dish.category_slug %>" data-aos="fade-up" data-aos-delay="<%= (idx % 3) * 80 %>">
+               <div class="mcard"
+                  data-img="<%= dish.image %>"
+                  data-title="<%= dish.name %>"
+                  data-cat="<%= dish.category_name %>"
+                  data-price="$<%= Number(dish.price).toFixed(2) %>" data-old="<%= dish.old_price ? '$' + Number(dish.old_price).toFixed(2) : '' %>"
+                  data-rating="<%= dish.rating %>" data-reviews="<%= dish.reviews_count %>"
+                  data-cal="<%= dish.calories || 500 %>" data-time="<%= dish.prep_time || 15 %>"
+                  data-desc="<%= dish.description %>"
+                  data-tags="<%= dish.tags || '' %>">
+                  <div class="mimg">
+                     <img src="<%= dish.image %>" alt="<%= dish.name %>"/>
+                     <% if (dish.is_dish_of_the_day) { %>
+                        <div class="mbdg hot"><i class="fas fa-fire"></i> Danie Dnia</div>
+                     <% } else if (dish.badge) { %>
+                        <div class="mbdg <%= dish.badge_type || '' %>"><i class="fas fa-star"></i> <%= dish.badge %></div>
+                     <% } %>
+                     <div class="mhrt"><i class="far fa-heart"></i></div>
+                  </div>
+                  <div class="mbody">
+                     <div class="mcat"><%= dish.category_name %></div>
+                     <div class="mtit"><%= dish.name %></div>
+                     <div class="mdesc"><%= dish.short_desc || dish.description %></div>
+                     <div class="mfoot">
+                        <div>
+                           <div class="mprice">
+                              $<%= Number(dish.price).toFixed(2) %>
+                              <% if (dish.old_price) { %><small>$<%= Number(dish.old_price).toFixed(2) %></small><% } %>
+                           </div>
+                           <div class="mstars"><i class="fas fa-star"></i> <span style="color:#bbb;font-size:.7rem;">(<%= dish.reviews_count %>)</span></div>
+                        </div>
+                        <button class="madd" title="View Details"><i class="fas fa-plus"></i></button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         <% }) %>
+      </div>
+      <div class="text-center mt-5">
+         <a href="/menu" class="btn-red"><i class="fas fa-th-large"></i>View Full Menu</a>
+      </div>
+   </div>
+</section>
+
+<!-- MENU DETAIL POPUP MODAL -->
+<div id="menuPop">
+   <div class="mpbox">
+      <button class="mpclose" id="mpClose"><i class="fas fa-times"></i></button>
+      <div class="mpimg"><img id="mpImg" src="" alt=""/></div>
+      <div class="mpbody">
+         <div id="mpCat"></div>
+         <div id="mpTitle"></div>
+         <div id="mpStars"></div>
+         <div id="mpDesc"></div>
+         <div id="mpPrice"></div>
+         <div class="mpmeta" id="mpMeta"></div>
+         <div class="mpqty">
+            <button class="mpqbtn" id="mpMinus">-</button>
+            <span class="mpqnum" id="mpQnum">1</span>
+            <button class="mpqbtn" id="mpPlus">+</button>
+            <span style="font-size:.82rem;color:#aaa;margin-left:9px;">portion</span>
+         </div>
+         <div class="mptags" id="mpTags"></div>
+         <button class="mpaddcart" id="mpAddCart"><i class="fas fa-shopping-cart"></i>Add to Cart</button>
+      </div>
+   </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+   <div class="container">
+      <div class="text-center mb-5" data-aos="fade-up">
+         <span class="slbl">What People Say</span>
+         <h2 class="stitle">Our Customers <span>Feedback</span></h2>
+         <div class="sline"></div>
+      </div>
+      <div class="swiper tesSwiper" data-aos="fade-up">
+         <div class="swiper-wrapper">
+            <% reviews.forEach(rev => { %>
+               <div class="swiper-slide">
+                  <div class="tescard">
+                     <div class="tesq">"</div>
+                     <div class="tess">
+                        <% for (let i = 1; i <= 5; i++) { %>
+                           <i class="<%= i <= rev.rating ? 'fas' : 'far' %> fa-star"></i>
+                        <% } %>
+                     </div>
+                     <p class="testxt"><%= rev.comment %></p>
+                     <div class="tesauth">
+                        <img src="<%= rev.avatar || '/img/testimonial/1.jpg' %>" alt="<%= rev.author_name %>"/>
+                        <div>
+                           <div class="tesnm"><%= rev.author_name %></div>
+                           <div class="tesrl"><%= rev.role_or_city || 'Verified Guest' %></div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            <% }) %>
+         </div>
+         <div class="swiper-pagination mt-4" style="position:static;"></div>
+      </div>
+   </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section id="newsletter">
+   <div class="nlbg"></div>
+   <div class="container">
+      <div class="nlw text-center" data-aos="zoom-in">
+         <span class="slbl" style="color:rgba(255,255,255,.7);">Stay Connected</span>
+         <h2 class="mb-3" style="color:#fff;">Subscribe &amp; Get Exclusive <span style="color:var(--secondary);">Deals</span></h2>
+         <p class="mb-4" style="color:rgba(255,255,255,.78);">Get 15% off your first order plus early access to new menu items</p>
+         <div class="nl-form-wrap">
+            <input class="nlinput" type="email" id="nlEmail" placeholder="Enter your email address..."/>
+            <button class="nlbtn" id="nlBtn"><i class="fas fa-paper-plane me-1"></i>Subscribe</button>
+         </div>
+         <p style="color:rgba(255,255,255,.45);font-size:.76rem;margin-top:11px;"><i class="fas fa-lock me-1"></i>No spam, unsubscribe anytime.</p>
+      </div>
+   </div>
+</section>
+
+<%- include('partials/footer') %>

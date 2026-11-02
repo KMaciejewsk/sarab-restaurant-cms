@@ -1,0 +1,90 @@
+<%- include('partials/header', { title: 'Wiadomości | Sarab CMS' }) %>
+<%- include('partials/navbar') %>
+<%- include('partials/sidebar', { activeTab: 'messages' }) %>
+
+<main class="app-main">
+  <div class="app-content-header py-3 border-bottom mb-4 bg-white">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="col-sm-6">
+          <h3 class="mb-0 fw-bold"><i class="bi bi-envelope text-primary me-2"></i>Wiadomości z Formularza Kontaktowego</h3>
+          <p class="text-muted small mb-0">Zapytania od gości nadesłane z podstrony Kontakt</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-content">
+    <div class="container-fluid">
+
+      <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-header bg-white py-3">
+          <h5 class="card-title fw-bold mb-0">Otrzymane wiadomości (<%= messages.length %>)</h5>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Nadawca</th>
+                  <th>Temat</th>
+                  <th>Treść wiadomości</th>
+                  <th>Data</th>
+                  <th>Status</th>
+                  <th class="text-end">Akcje</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if (messages.length === 0) { %>
+                  <tr><td colspan="6" class="text-center py-4 text-muted">Brak wiadomości w skrzynce.</td></tr>
+                <% } else { %>
+                  <% messages.forEach(m => { %>
+                    <tr class="<%= m.is_read ? '' : 'table-primary' %>">
+                      <td>
+                        <strong><%= m.name %></strong><br />
+                        <small class="text-muted"><%= m.email %> | <%= m.phone || 'brak tel.' %></small>
+                      </td>
+                      <td>
+                        <span class="badge text-bg-light border"><%= m.subject %></span>
+                      </td>
+                      <td style="max-width: 380px;">
+                        <p class="small mb-0"><%= m.message %></p>
+                      </td>
+                      <td>
+                        <small class="text-muted"><%= m.created_at %></small>
+                      </td>
+                      <td>
+                        <% if (m.is_read) { %>
+                          <span class="badge text-bg-secondary">Przeczytana</span>
+                        <% } else { %>
+                          <span class="badge text-bg-primary">Nowa</span>
+                        <% } %>
+                      </td>
+                      <td class="text-end">
+                        <% if (!m.is_read) { %>
+                          <form action="/admin/messages/read/<%= m.id %>" method="POST" class="d-inline">
+                            <button type="submit" class="btn btn-sm btn-outline-primary me-1" title="Oznacz jako przeczytaną">
+                              <i class="bi bi-envelope-open"></i>
+                            </button>
+                          </form>
+                        <% } %>
+                        <form action="/admin/messages/delete/<%= m.id %>" method="POST" class="d-inline" onsubmit="return confirm('Czy na pewno chcesz usunąć tę wiadomość?');">
+                          <button type="submit" class="btn btn-sm btn-outline-danger" title="Usuń">
+                            <i class="bi bi-trash"></i>
+                          </button>
+                        </form>
+                      </td>
+                    </tr>
+                  <% }) %>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<%- include('partials/footer') %>

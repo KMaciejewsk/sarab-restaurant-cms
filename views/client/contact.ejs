@@ -1,0 +1,134 @@
+<%- include('partials/header') %>
+<%- include('partials/banner', { pageTitle: 'Get In Touch', subtitle: 'We Are Here For You', breadcrumb: 'Contact' }) %>
+
+<section id="contact-section">
+   <div class="container">
+      <div class="text-center mb-5" data-aos="fade-up">
+         <span class="slbl">Get In Touch</span>
+         <h2 class="stitle">Contact <span>Us</span></h2>
+         <div class="sline"></div>
+         <p class="sdesc mx-auto" style="max-width:480px;">Have a question, feedback, or want to plan a special event? We'd love to hear from you.</p>
+      </div>
+
+      <% if (typeof sent !== 'undefined' && sent) { %>
+         <div class="alert alert-success text-center py-3 mb-5" style="border-radius:14px;">
+            <i class="fas fa-check-circle me-2"></i><strong>Wiadomość została wysłana!</strong> Odpowiemy najszybciej jak to możliwe.
+         </div>
+      <% } %>
+
+      <div class="row g-4">
+         <div class="col-lg-4" data-aos="fade-right">
+            <div class="ctdark">
+               <h4>Let's Talk</h4>
+               <p class="ctsub">We typically respond within 2 hours during business hours.</p>
+               <div class="ctitem">
+                  <div class="cticon"><i class="fas fa-map-marker-alt"></i></div>
+                  <div class="ctinfo"><strong>Address</strong><span><%= (typeof info !== 'undefined' && info.address) ? info.address : '42 Flavor Street, Manhattan, New York, NY 10001' %></span></div>
+               </div>
+               <div class="ctitem">
+                  <div class="cticon"><i class="fas fa-phone-alt"></i></div>
+                  <div class="ctinfo"><strong>Phone</strong><span><%= (typeof info !== 'undefined' && info.phone) ? info.phone : '+1 (800) 123-4567' %></span></div>
+               </div>
+               <div class="ctitem">
+                  <div class="cticon"><i class="fas fa-envelope"></i></div>
+                  <div class="ctinfo"><strong>Email</strong><span><%= (typeof info !== 'undefined' && info.email) ? info.email : 'hello@sarabfood.com' %></span></div>
+               </div>
+               <div class="ctitem">
+                  <div class="cticon"><i class="fas fa-clock"></i></div>
+                  <div class="ctinfo"><strong>Working Hours</strong><span>Wed - Sun: 9 AM - 11 PM</span></div>
+               </div>
+               <div class="ctsocrow">
+                  <a href="#"><i class="fab fa-facebook-f"></i></a>
+                  <a href="#"><i class="fab fa-instagram"></i></a>
+                  <a href="#"><i class="fab fa-twitter"></i></a>
+                  <a href="#"><i class="fab fa-youtube"></i></a>
+               </div>
+            </div>
+         </div>
+         <div class="col-lg-8" data-aos="fade-left">
+            <div class="fcard">
+               <form action="/contact" method="POST">
+                  <div class="row g-3">
+                     <div class="col-sm-6">
+                        <label class="flbl">Your Name *</label>
+                        <input type="text" name="name" class="fctrl" placeholder="John Doe" required/>
+                     </div>
+                     <div class="col-sm-6">
+                        <label class="flbl">Email Address *</label>
+                        <input type="email" name="email" class="fctrl" placeholder="you@email.com" required/>
+                     </div>
+                     <div class="col-sm-6">
+                        <label class="flbl">Phone Number</label>
+                        <input type="tel" name="phone" class="fctrl" placeholder="+1 (800) 000-0000"/>
+                     </div>
+                     <div class="col-sm-6">
+                        <label class="flbl">Subject *</label>
+                        <select name="subject" class="fctrl" required>
+                           <option value="General Inquiry">General Inquiry</option>
+                           <option value="Catering & Events">Catering &amp; Events</option>
+                           <option value="Feedback">Feedback</option>
+                           <option value="Partnership">Partnership</option>
+                           <option value="Media & Press">Media &amp; Press</option>
+                        </select>
+                     </div>
+                     <div class="col-12">
+                        <label class="flbl">Message *</label>
+                        <textarea name="message" class="fctrl" rows="5" placeholder="Write your message here..." required></textarea>
+                     </div>
+                     <div class="col-12">
+                        <button type="submit" class="btn-red" id="ctcBtn"><i class="fas fa-paper-plane me-2"></i>Send Message</button>
+                     </div>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+
+<!-- DYNAMIC OPENING HOURS SECTION -->
+<section id="hours">
+   <div class="hrsbg"></div>
+   <div class="container" style="position:relative;z-index:2;">
+      <div class="text-center mb-5" data-aos="fade-up">
+         <span class="slbl" style="color:#a5d6bc;">Opening Hours</span>
+         <h2 class="stitle" style="color:#fff;">We're Open <span style="color:var(--secondary);">For You</span></h2>
+         <div class="sline"></div>
+      </div>
+      <div class="row g-4 align-items-start">
+         <div class="col-lg-5" data-aos="fade-right">
+            <div class="hrscard">
+               <% if (typeof openingHours !== 'undefined') { %>
+                  <% openingHours.forEach(h => { %>
+                     <div class="hrsrow">
+                        <span class="hrsday"><i class="fas fa-calendar-day me-2" style="color:var(--secondary);"></i><%= h.day_range %></span>
+                        <div class="d-flex align-items-center gap-2">
+                           <div class="hdot <%= h.is_closed ? 'off' : 'on' %>"></div>
+                           <span class="hrstime" style="<%= h.is_closed ? 'color:#ff6b6b;' : '' %>"><%= h.hours %></span>
+                        </div>
+                     </div>
+                  <% }) %>
+               <% } %>
+            </div>
+         </div>
+         <div class="col-lg-3" data-aos="zoom-in">
+            <div class="hrscta">
+               <i class="fas fa-truck-fast fa-2x mb-3" style="color:rgba(255,255,255,.8);"></i>
+               <h4>Order Online</h4>
+               <p>Get hot food delivered in 25 minutes</p>
+               <a href="/menu" class="btnw">Order Now →</a>
+            </div>
+         </div>
+         <div class="col-lg-4" data-aos="fade-left">
+            <div class="hrscard">
+               <h5 style="color:#fff;margin-bottom:18px;font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:700;"><i class="fas fa-map-marker-alt me-2" style="color:var(--secondary);"></i>Find Us</h5>
+               <div class="hrsrow"><span class="hrsday"><i class="fas fa-location-dot me-2" style="color:var(--secondary);"></i>Address</span><span class="hrstime" style="font-size:.8rem;"><%= (typeof info !== 'undefined' && info.address) ? info.address : '42 Flavor Street, NY' %></span></div>
+               <div class="hrsrow"><span class="hrsday"><i class="fas fa-phone me-2" style="color:var(--secondary);"></i>Phone</span><span class="hrstime" style="font-size:.8rem;"><%= (typeof info !== 'undefined' && info.phone) ? info.phone : '+1 (800) 123-4567' %></span></div>
+               <div class="hrsrow"><span class="hrsday"><i class="fas fa-envelope me-2" style="color:var(--secondary);"></i>Email</span><span class="hrstime" style="font-size:.8rem;"><%= (typeof info !== 'undefined' && info.email) ? info.email : 'hello@sarabfood.com' %></span></div>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,19 @@
+# Zależności Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Lokalna baza danych (plik binarny generowany automatycznie przez: npm run init-db)
+database/restaurant.sqlite
+
+# Pliki konfiguracyjne i systemowe
+.env
+.env.local
+.DS_Store
+Thumbs.db
+
+# Robocze notatki i syllabus w docs/ (folder docs/ pozostaje pod przyszłe sprawozdanie)
+docs/new 1.txt
+docs/new\ 1.txt
+docs/Apolinarski_SZT_plan_zaoczne.pdf

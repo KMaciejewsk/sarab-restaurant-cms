@@ -1,0 +1,81 @@
+<%- include('partials/header') %>
+<%- include('partials/banner', { pageTitle: 'Customer Reviews & Feedback', subtitle: 'What Our Guests Say', breadcrumb: 'Reviews' }) %>
+
+<section id="testimonials">
+   <div class="container">
+      <div class="text-center mb-5" data-aos="fade-up">
+         <span class="slbl">What People Say</span>
+         <h2 class="stitle">Our Customers <span>Feedback</span></h2>
+         <div class="sline"></div>
+      </div>
+      <div class="swiper tesSwiper" data-aos="fade-up">
+         <div class="swiper-wrapper">
+            <% reviews.forEach(rev => { %>
+               <div class="swiper-slide">
+                  <div class="tescard">
+                     <div class="tesq">"</div>
+                     <div class="tess">
+                        <% for (let i = 1; i <= 5; i++) { %>
+                           <i class="<%= i <= rev.rating ? 'fas' : 'far' %> fa-star"></i>
+                        <% } %>
+                     </div>
+                     <p class="testxt"><%= rev.comment %></p>
+                     <div class="tesauth">
+                        <img src="<%= rev.avatar || '/img/testimonial/1.jpg' %>" alt="<%= rev.author_name %>"/>
+                        <div>
+                           <div class="tesnm"><%= rev.author_name %></div>
+                           <div class="tesrl"><%= rev.role_or_city || 'Verified Guest' %></div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            <% }) %>
+         </div>
+         <div class="swiper-pagination mt-4" style="position:static;"></div>
+      </div>
+   </div>
+</section>
+
+<!-- Add a Review CTA section -->
+<div class="py-5" style="background:#fff8f0;">
+   <div class="container text-center">
+      <span class="slbl">Your Opinion Matters</span>
+      <h2 class="stitle mb-3">Leave Us A <span>Review</span></h2>
+      <div class="sline mx-auto mb-4"></div>
+      <p class="sdesc mx-auto mb-4" style="max-width:550px;">Did you enjoy dining with us or order delivery? We would love to hear your thoughts and suggestions!</p>
+      
+      <% if (typeof sent !== 'undefined' && sent) { %>
+         <div class="alert alert-success d-inline-block px-4 py-3 mb-4" style="border-radius:14px;">
+            <i class="fas fa-check-circle me-2"></i><strong>Dziękujemy za opinię!</strong> Twoja recenzja została przesłana i pojawi się na stronie po zatwierdzeniu przez właściciela.
+         </div>
+      <% } %>
+
+      <div class="row justify-content-center">
+         <div class="col-md-8 col-lg-6">
+            <form action="/reviews" method="POST" class="card p-4 shadow-sm border-0 text-start" style="border-radius:18px;">
+               <div class="mb-3">
+                  <label class="form-label fw-semibold">Your Rating</label>
+                  <select name="rating" class="form-select" required>
+                     <option value="5" selected>⭐⭐⭐⭐⭐ (5/5) - Excellent</option>
+                     <option value="4">⭐⭐⭐⭐ (4/5) - Very Good</option>
+                     <option value="3">⭐⭐⭐ (3/5) - Average</option>
+                     <option value="2">⭐⭐ (2/5) - Poor</option>
+                     <option value="1">⭐ (1/5) - Terrible</option>
+                  </select>
+               </div>
+               <div class="mb-3">
+                  <label class="form-label fw-semibold">Your Name *</label>
+                  <input type="text" name="author_name" class="form-control" placeholder="e.g. Monica Geller" required>
+               </div>
+               <div class="mb-3">
+                  <label class="form-label fw-semibold">Your Feedback *</label>
+                  <textarea name="comment" class="form-control" rows="4" placeholder="Tell us about the food, ambiance, or delivery..." required></textarea>
+               </div>
+               <button type="submit" class="btn-red w-100 justify-content-center"><i class="fas fa-paper-plane me-2"></i>Submit Review</button>
+            </form>
+         </div>
+      </div>
+   </div>
+</div>
+
+<%- include('partials/footer') %>

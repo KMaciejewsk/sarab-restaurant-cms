@@ -1,0 +1,80 @@
+<%- include('partials/header', { title: 'Szefowie Kuchni | Sarab CMS' }) %>
+<%- include('partials/navbar') %>
+<%- include('partials/sidebar', { activeTab: 'chefs' }) %>
+
+<main class="app-main">
+  <div class="app-content-header py-3 border-bottom mb-4 bg-white">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="col-sm-6">
+          <h3 class="mb-0 fw-bold"><i class="bi bi-people text-danger me-2"></i>Zespół Szefów Kuchni</h3>
+          <p class="text-muted small mb-0">Zarządzanie sylwetkami kucharzy prezentowanymi na stronie (wymóg: Właściciel)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-content">
+    <div class="container-fluid">
+      
+      <!-- Lista szefow -->
+      <div class="row g-4 mb-4">
+        <% chefs.forEach(c => { %>
+          <div class="col-md-6 col-lg-3">
+            <div class="card shadow-sm border-0 rounded-3 h-100 overflow-hidden">
+              <img src="<%= c.image %>" class="card-img-top" style="height: 220px; object-fit: cover;" alt="<%= c.name %>" onerror="this.src='/img/chefs/1.jpg'" />
+              <div class="card-body">
+                <h5 class="card-title fw-bold mb-1"><%= c.name %></h5>
+                <span class="badge text-bg-danger mb-2"><%= c.role %></span>
+                <p class="small text-muted mb-2"><i class="bi bi-award me-1"></i><%= c.experience %></p>
+                <p class="small text-secondary mb-3"><%= c.bio || 'Brak opisu.' %></p>
+                
+                <form action="/admin/chefs/delete/<%= c.id %>" method="POST" onsubmit="return confirm('Usunąć tego kucharza?');">
+                  <button type="submit" class="btn btn-sm btn-outline-danger w-100"><i class="bi bi-trash me-1"></i> Usuń</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+
+      <!-- Formularz dodania nowego szefa kuchni -->
+      <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-header bg-white py-3">
+          <h5 class="card-title fw-bold mb-0"><i class="bi bi-person-plus text-danger me-2"></i>Dodaj nowego szefa kuchni</h5>
+        </div>
+        <form action="/admin/chefs/new" method="POST" class="card-body p-4">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label class="form-label fw-semibold">Imię i Nazwisko *</label>
+              <input type="text" name="name" class="form-control" placeholder="np. Gordon Ramsay" required />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-semibold">Stanowisko / Rola *</label>
+              <input type="text" name="role" class="form-control" placeholder="np. Master Chef" required />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-semibold">Doświadczenie *</label>
+              <input type="text" name="experience" class="form-control" placeholder="np. 15 years experience" required />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Ścieżka do zdjęcia *</label>
+              <input type="text" name="image" class="form-control" value="/img/chefs/1.jpg" placeholder="/img/chefs/1.jpg" required />
+              <small class="text-muted">Dostępne: <code>/img/chefs/1.jpg</code> do <code>4.jpg</code></small>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Krótki biogram</label>
+              <input type="text" name="bio" class="form-control" placeholder="Krótki opis pasji i specjalizacji..." />
+            </div>
+          </div>
+          <div class="text-end mt-4">
+            <button type="submit" class="btn btn-sarab px-4"><i class="bi bi-plus-lg me-1"></i> Dodaj do zespołu</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<%- include('partials/footer') %>

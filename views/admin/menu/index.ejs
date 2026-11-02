@@ -1,0 +1,109 @@
+<%- include('../partials/header', { title: 'Zarządzanie Menu | Sarab CMS' }) %>
+<%- include('../partials/navbar') %>
+<%- include('../partials/sidebar', { activeTab: 'menu' }) %>
+
+<main class="app-main">
+  <div class="app-content-header py-3 border-bottom mb-4 bg-white">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="col-sm-6">
+          <h3 class="mb-0 fw-bold"><i class="bi bi-card-list text-danger me-2"></i>Karta Menu Restauracji</h3>
+          <p class="text-muted small mb-0">Dodawaj, edytuj i usuwaj dania z karty oraz zarządzaj Danie Dnia</p>
+        </div>
+        <div class="col-sm-6 text-sm-end">
+          <a href="/admin/menu/new" class="btn btn-sarab"><i class="bi bi-plus-lg me-1"></i> Dodaj nowe danie</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-content">
+    <div class="container-fluid">
+      
+      <% if (typeof success !== 'undefined' && success) { %>
+        <div class="alert alert-success alert-dismissible fade show shadow-sm mb-4" role="alert">
+          <i class="bi bi-check-circle me-1"></i> <%= success %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      <% } %>
+
+      <div class="card shadow-sm border-0 rounded-3">
+        <div class="card-header bg-white py-3">
+          <h5 class="card-title fw-bold mb-0">Lista potraw w menu (<%= dishes.length %>)</h5>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th style="width: 70px;">Foto</th>
+                  <th>Nazwa potrawy</th>
+                  <th>Kategoria</th>
+                  <th>Cena</th>
+                  <th class="text-center">Danie Dnia</th>
+                  <th class="text-end" style="min-width: 140px;">Akcje</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if (dishes.length === 0) { %>
+                  <tr><td colspan="6" class="text-center py-4 text-muted">Brak dań w karcie. Kliknij "Dodaj nowe danie" u góry.</td></tr>
+                <% } else { %>
+                  <% dishes.forEach(d => { %>
+                    <tr>
+                      <td>
+                        <img src="<%= d.image %>" alt="<%= d.name %>" class="rounded shadow-sm" style="width: 50px; height: 50px; object-fit: cover;" onerror="this.src='/img/menu/1.jpg'" />
+                      </td>
+                      <td>
+                        <strong class="text-dark"><%= d.name %></strong>
+                        <% if (d.badge) { %>
+                          <span class="badge text-bg-warning ms-1"><%= d.badge %></span>
+                        <% } %>
+                        <br />
+                        <small class="text-muted"><%= d.short_desc || d.description.substring(0, 60) + '...' %></small>
+                      </td>
+                      <td>
+                        <span class="badge text-bg-light border"><%= d.category_name %></span>
+                      </td>
+                      <td>
+                        <strong class="text-success">$<%= Number(d.price).toFixed(2) %></strong>
+                        <% if (d.old_price) { %>
+                          <small class="text-muted text-decoration-line-through d-block">$<%= Number(d.old_price).toFixed(2) %></small>
+                        <% } %>
+                      </td>
+                      <td class="text-center">
+                        <form action="/admin/menu/toggle-daily/<%= d.id %>" method="POST">
+                          <% if (d.is_dish_of_the_day) { %>
+                            <button type="submit" class="btn btn-sm btn-danger px-2" title="Kliknij, aby wyłączyć danie dnia">
+                              <i class="bi bi-fire me-1"></i> Danie Dnia
+                            </button>
+                          <% } else { %>
+                            <button type="submit" class="btn btn-sm btn-outline-secondary px-2" title="Kliknij, aby ustawić jako danie dnia">
+                              Ustaw
+                            </button>
+                          <% } %>
+                        </form>
+                      </td>
+                      <td class="text-end">
+                        <a href="/admin/menu/edit/<%= d.id %>" class="btn btn-sm btn-outline-primary me-1" title="Edytuj">
+                          <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <form action="/admin/menu/delete/<%= d.id %>" method="POST" class="d-inline" onsubmit="return confirm('Czy na pewno chcesz usunąć to danie?');">
+                          <button type="submit" class="btn btn-sm btn-outline-danger" title="Usuń">
+                            <i class="bi bi-trash"></i>
+                          </button>
+                        </form>
+                      </td>
+                    </tr>
+                  <% }) %>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<%- include('../partials/footer') %>

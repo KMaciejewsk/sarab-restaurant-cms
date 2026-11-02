@@ -1,0 +1,83 @@
+<%- include('partials/header', { title: 'Dane Lokalu | Sarab CMS' }) %>
+<%- include('partials/navbar') %>
+<%- include('partials/sidebar', { activeTab: 'settings' }) %>
+
+<main class="app-main">
+  <div class="app-content-header py-3 border-bottom mb-4 bg-white">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="col-sm-6">
+          <h3 class="mb-0 fw-bold"><i class="bi bi-sliders text-danger me-2"></i>Dane Restauracji & Konfiguracja</h3>
+          <p class="text-muted small mb-0">Zarządzanie danymi kontaktowymi lokalu widocznymi w nagłówku i stopce (wymóg: Właściciel)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-content">
+    <div class="container-fluid">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+          <% if (typeof success !== 'undefined' && success) { %>
+            <div class="alert alert-success alert-dismissible fade show shadow-sm mb-4" role="alert">
+              <i class="bi bi-check-circle me-1"></i> <%= success %>
+              <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+          <% } %>
+
+          <div class="card shadow-sm border-0 rounded-3">
+            <div class="card-header bg-white py-3">
+              <h5 class="card-title fw-bold mb-0">Informacje teleadresowe</h5>
+            </div>
+            <form action="/admin/settings" method="POST" class="card-body p-4">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Nazwa lokalu</label>
+                  <input type="text" name="restaurant_name" class="form-control" value="<%= info.restaurant_name || 'Sarab Restaurant' %>" required />
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Hasło promocyjne w pasku górnym</label>
+                  <input type="text" name="delivery_tag" class="form-control" value="<%= info.delivery_tag || 'Free Delivery Today!' %>" />
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Numer telefonu</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-telephone"></i></span>
+                    <input type="text" name="phone" class="form-control" value="<%= info.phone || '+1 (800) 123-4567' %>" required />
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label fw-semibold">Adres e-mail</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                    <input type="email" name="email" class="form-control" value="<%= info.email || 'hello@sarabfood.com' %>" required />
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <label class="form-label fw-semibold">Adres fizyczny lokalu</label>
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
+                    <input type="text" name="address" class="form-control" value="<%= info.address || '42 Flavor Street, Manhattan, NY 10001' %>" required />
+                  </div>
+                </div>
+              </div>
+
+              <div class="text-end mt-4 pt-3 border-top">
+                <button type="submit" class="btn btn-sarab px-4">
+                  <i class="bi bi-check-lg me-1"></i> Zapisz dane restauracji
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,153 @@
+<%- include('partials/header') %>
+<%- include('partials/banner', { pageTitle: 'Book Your Table', subtitle: 'Dine In With Us', breadcrumb: 'Reservation' }) %>
+
+<section id="reservation">
+   <div class="container">
+      <div class="text-center mb-5" data-aos="fade-up">
+         <span class="slbl">Book a Table</span>
+         <h2 class="stitle">Make a <span>Reservation</span></h2>
+         <div class="sline"></div>
+         <p class="sdesc mx-auto" style="max-width:480px;">Reserve your table for a memorable dining experience. We recommend booking 24 hours in advance for weekend evenings.</p>
+      </div>
+
+      <% if (typeof booked !== 'undefined' && booked) { %>
+         <div class="alert alert-success text-center py-3 mb-5" style="border-radius:14px;">
+            <i class="fas fa-check-circle me-2"></i><strong>Rezerwacja została przyjęta!</strong> Skontaktujemy się telefonicznie lub mailowo w celu potwierdzenia.
+         </div>
+      <% } %>
+
+      <div class="row g-4 align-items-start">
+         <div class="col-lg-4" data-aos="fade-right">
+            <div style="background:var(--dark);border-radius:18px;padding:36px;">
+               <h4 style="color:#fff;font-size:1.3rem;margin-bottom:8px;">Contact Info</h4>
+               <p style="color:rgba(255,255,255,.55);font-size:.85rem;margin-bottom:26px;">We're happy to help you plan the perfect dining experience.</p>
+               <div class="d-flex flex-column gap-3">
+                  <div class="d-flex align-items-center gap-3">
+                     <div style="width:46px;height:46px;border-radius:11px;background:rgba(232,40,26,.2);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:1.1rem;flex-shrink:0;"><i class="fas fa-clock"></i></div>
+                     <div><strong style="display:block;color:#ccc;font-size:.78rem;text-transform:uppercase;letter-spacing:.8px;">Opening Hours</strong><span style="color:#fff;font-size:.87rem;">Wed - Sun, 9 AM - 11 PM</span></div>
+                  </div>
+                  <div class="d-flex align-items-center gap-3">
+                     <div style="width:46px;height:46px;border-radius:11px;background:rgba(232,40,26,.2);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:1.1rem;flex-shrink:0;"><i class="fas fa-phone-alt"></i></div>
+                     <div><strong style="display:block;color:#ccc;font-size:.78rem;text-transform:uppercase;letter-spacing:.8px;">Call for Booking</strong><span style="color:#fff;font-size:.87rem;"><%= (typeof info !== 'undefined' && info.phone) ? info.phone : '+1 (800) 123-4567' %></span></div>
+                  </div>
+                  <div class="d-flex align-items-center gap-3">
+                     <div style="width:46px;height:46px;border-radius:11px;background:rgba(232,40,26,.2);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:1.1rem;flex-shrink:0;"><i class="fas fa-users"></i></div>
+                     <div><strong style="display:block;color:#ccc;font-size:.78rem;text-transform:uppercase;letter-spacing:.8px;">Group Dining</strong><span style="color:#fff;font-size:.87rem;">Special menus for 10+ guests</span></div>
+                  </div>
+                  <div class="d-flex align-items-center gap-3">
+                     <div style="width:46px;height:46px;border-radius:11px;background:rgba(232,40,26,.2);display:flex;align-items:center;justify-content:center;color:var(--primary);font-size:1.1rem;flex-shrink:0;"><i class="fas fa-map-marker-alt"></i></div>
+                     <div><strong style="display:block;color:#ccc;font-size:.78rem;text-transform:uppercase;letter-spacing:.8px;">Location</strong><span style="color:#fff;font-size:.87rem;"><%= (typeof info !== 'undefined' && info.address) ? info.address : '42 Flavor Street, NY' %></span></div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-lg-8" data-aos="fade-left">
+            <div class="fcard">
+               <form action="/reservation" method="POST">
+                  <div class="row g-3">
+                     <div class="col-sm-6">
+                        <label class="flbl">Full Name *</label>
+                        <input type="text" name="full_name" class="fctrl" placeholder="John Doe" required/>
+                     </div>
+                     <div class="col-sm-6">
+                        <label class="flbl">Phone Number *</label>
+                        <input type="tel" name="phone" class="fctrl" placeholder="+1 (800) 000-0000" required/>
+                     </div>
+                     <div class="col-sm-6">
+                        <label class="flbl">Email Address *</label>
+                        <input type="email" name="email" class="fctrl" placeholder="you@email.com" required/>
+                     </div>
+                     <div class="col-sm-6">
+                        <label class="flbl">Number of Guests *</label>
+                        <select name="guests" class="fctrl" required>
+                           <option value="1">1 Person</option>
+                           <option value="2" selected>2 People</option>
+                           <option value="3">3 - 4 People</option>
+                           <option value="5">5 - 6 People</option>
+                           <option value="8">7 - 10 People</option>
+                           <option value="12">10+ People</option>
+                        </select>
+                     </div>
+                     <div class="col-sm-6">
+                        <label class="flbl">Date *</label>
+                        <input type="date" name="reservation_date" class="fctrl" required/>
+                     </div>
+                     <div class="col-sm-6">
+                        <label class="flbl">Time *</label>
+                        <select name="reservation_time" class="fctrl" required>
+                           <option value="09:00 AM">09:00 AM</option>
+                           <option value="10:00 AM">10:00 AM</option>
+                           <option value="11:00 AM">11:00 AM</option>
+                           <option value="12:00 PM">12:00 PM</option>
+                           <option value="01:00 PM">01:00 PM</option>
+                           <option value="02:00 PM">02:00 PM</option>
+                           <option value="06:00 PM" selected>06:00 PM</option>
+                           <option value="07:00 PM">07:00 PM</option>
+                           <option value="08:00 PM">08:00 PM</option>
+                           <option value="09:00 PM">09:00 PM</option>
+                           <option value="10:00 PM">10:00 PM</option>
+                        </select>
+                     </div>
+                     <div class="col-12">
+                        <label class="flbl">Special Requests</label>
+                        <textarea name="special_requests" class="fctrl" rows="3" placeholder="Allergies, dietary needs, special occasions..."></textarea>
+                     </div>
+                     <div class="col-12">
+                        <button type="submit" class="btn-red w-100 justify-content-center" id="resBtn">
+                           <i class="fas fa-calendar-check"></i>Confirm Reservation
+                        </button>
+                     </div>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+
+<!-- DYNAMIC OPENING HOURS SECTION -->
+<section id="hours">
+   <div class="hrsbg"></div>
+   <div class="container" style="position:relative;z-index:2;">
+      <div class="text-center mb-5" data-aos="fade-up">
+         <span class="slbl" style="color:#a5d6bc;">Opening Hours</span>
+         <h2 class="stitle" style="color:#fff;">We're Open <span style="color:var(--secondary);">For You</span></h2>
+         <div class="sline"></div>
+      </div>
+      <div class="row g-4 align-items-start">
+         <div class="col-lg-5" data-aos="fade-right">
+            <div class="hrscard">
+               <% if (typeof openingHours !== 'undefined') { %>
+                  <% openingHours.forEach(h => { %>
+                     <div class="hrsrow">
+                        <span class="hrsday"><i class="fas fa-calendar-day me-2" style="color:var(--secondary);"></i><%= h.day_range %></span>
+                        <div class="d-flex align-items-center gap-2">
+                           <div class="hdot <%= h.is_closed ? 'off' : 'on' %>"></div>
+                           <span class="hrstime" style="<%= h.is_closed ? 'color:#ff6b6b;' : '' %>"><%= h.hours %></span>
+                        </div>
+                     </div>
+                  <% }) %>
+               <% } %>
+            </div>
+         </div>
+         <div class="col-lg-3" data-aos="zoom-in">
+            <div class="hrscta">
+               <i class="fas fa-truck-fast fa-2x mb-3" style="color:rgba(255,255,255,.8);"></i>
+               <h4>Order Online</h4>
+               <p>Get hot food delivered in 25 minutes</p>
+               <a href="/menu" class="btnw">Order Now →</a>
+            </div>
+         </div>
+         <div class="col-lg-4" data-aos="fade-left">
+            <div class="hrscard">
+               <h5 style="color:#fff;margin-bottom:18px;font-family:'Poppins',sans-serif;font-size:.95rem;font-weight:700;"><i class="fas fa-map-marker-alt me-2" style="color:var(--secondary);"></i>Find Us</h5>
+               <div class="hrsrow"><span class="hrsday"><i class="fas fa-location-dot me-2" style="color:var(--secondary);"></i>Address</span><span class="hrstime" style="font-size:.8rem;"><%= (typeof info !== 'undefined' && info.address) ? info.address : '42 Flavor Street, NY' %></span></div>
+               <div class="hrsrow"><span class="hrsday"><i class="fas fa-phone me-2" style="color:var(--secondary);"></i>Phone</span><span class="hrstime" style="font-size:.8rem;"><%= (typeof info !== 'undefined' && info.phone) ? info.phone : '+1 (800) 123-4567' %></span></div>
+               <div class="hrsrow"><span class="hrsday"><i class="fas fa-envelope me-2" style="color:var(--secondary);"></i>Email</span><span class="hrstime" style="font-size:.8rem;"><%= (typeof info !== 'undefined' && info.email) ? info.email : 'hello@sarabfood.com' %></span></div>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+
+<%- include('partials/footer') %>

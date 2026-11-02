@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title><%= typeof title !== 'undefined' ? title : 'Panel CMS | Sarab Restaurant' %></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+
+    <!-- Google Font: Source Sans 3 -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.3.0/index.css"
+      crossorigin="anonymous"
+    />
+
+    <!-- OverlayScrollbars -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.16.0/styles/overlayscrollbars.min.css"
+      crossorigin="anonymous"
+    />
+
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+      crossorigin="anonymous"
+    />
+
+    <!-- FontAwesome (spójność z szablonem Sarab) -->
+    <link rel="stylesheet" href="/css/all.min.css" />
+
+    <!-- AdminLTE CSS -->
+    <link rel="stylesheet" href="/admin/css/adminlte.css" />
+
+    <!-- Dedykowane akcenty kolorystyczne restauracji Sarab -->
+    <style>
+      :root {
+        --lte-primary: #e8281a;
+        --lte-primary-rgb: 232, 40, 26;
+      }
+      .brand-link {
+        background-color: #1a1a1a !important;
+        color: #fff !important;
+      }
+      .brand-link span.badge-brand {
+        background: #e8281a;
+        color: #fff;
+        font-size: 0.75rem;
+        padding: 3px 8px;
+        border-radius: 6px;
+      }
+      .sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active {
+        background-color: #e8281a !important;
+      }
+      .bg-sarab {
+        background-color: #e8281a !important;
+        color: white !important;
+      }
+      .btn-sarab {
+        background-color: #e8281a;
+        border-color: #e8281a;
+        color: #fff;
+      }
+      .btn-sarab:hover {
+        background-color: #c41e12;
+        border-color: #c41e12;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+    <div class="app-wrapper">

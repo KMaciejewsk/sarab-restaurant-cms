@@ -1,0 +1,126 @@
+<%- include('partials/header', { title: 'Użytkownicy i Uprawnienia | Sarab CMS' }) %>
+<%- include('partials/navbar') %>
+<%- include('partials/sidebar', { activeTab: 'users' }) %>
+
+<main class="app-main">
+  <div class="app-content-header py-3 border-bottom mb-4 bg-white">
+    <div class="container-fluid">
+      <div class="row align-items-center">
+        <div class="col-sm-6">
+          <h3 class="mb-0 fw-bold"><i class="bi bi-person-gear text-danger me-2"></i>Użytkownicy i Uprawnienia</h3>
+          <p class="text-muted small mb-0">Zarządzanie kontami dostępowymi do systemu CMS (wymóg: Właściciel)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-content">
+    <div class="container-fluid">
+
+      <% if (typeof error !== 'undefined' && error) { %>
+        <div class="alert alert-danger alert-dismissible fade show shadow-sm mb-4" role="alert">
+          <i class="bi bi-exclamation-triangle-fill me-1"></i> <%= error %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      <% } %>
+
+      <div class="row g-4">
+        <!-- Lista uzytkownikow -->
+        <div class="col-lg-8">
+          <div class="card shadow-sm border-0 rounded-3">
+            <div class="card-header bg-white py-3">
+              <h5 class="card-title fw-bold mb-0">Zarejestrowane konta (<%= users.length %>)</h5>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                  <thead class="table-light">
+                    <tr>
+                      <th>Użytkownik</th>
+                      <th>Login</th>
+                      <th>Rola</th>
+                      <th>Data utworzenia</th>
+                      <th class="text-end">Akcje</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% users.forEach(u => { %>
+                      <tr>
+                        <td>
+                          <strong><%= u.full_name %></strong>
+                          <% if (u.id === currentUser.id) { %>
+                            <span class="badge text-bg-light border ms-1">To Ty</span>
+                          <% } %>
+                        </td>
+                        <td><code>@<%= u.username %></code></td>
+                        <td>
+                          <% if (u.role === 'owner') { %>
+                            <span class="badge text-bg-danger"><i class="bi bi-shield-lock me-1"></i> Właściciel</span>
+                          <% } else { %>
+                            <span class="badge text-bg-warning"><i class="bi bi-person-badge me-1"></i> Pracownik</span>
+                          <% } %>
+                        </td>
+                        <td><small class="text-muted"><%= u.created_at %></small></td>
+                        <td class="text-end">
+                          <% if (u.id !== currentUser.id) { %>
+                            <form action="/admin/users/delete/<%= u.id %>" method="POST" class="d-inline" onsubmit="return confirm('Czy na pewno chcesz usunąć to konto?');">
+                              <button type="submit" class="btn btn-sm btn-outline-danger" title="Usuń konto">
+                                <i class="bi bi-trash"></i>
+                              </button>
+                            </form>
+                          <% } else { %>
+                            <span class="text-muted small">Aktywny</span>
+                          <% } %>
+                        </td>
+                      </tr>
+                    <% }) %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Formularz dodania uzytkownika -->
+        <div class="col-lg-4">
+          <div class="card shadow-sm border-0 rounded-3">
+            <div class="card-header bg-white py-3">
+              <h5 class="card-title fw-bold mb-0"><i class="bi bi-person-plus text-danger me-2"></i>Dodaj konto</h5>
+            </div>
+            <form action="/admin/users/new" method="POST" class="card-body p-4">
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Imię i nazwisko *</label>
+                <input type="text" name="full_name" class="form-control" placeholder="np. Marek Wiśniewski" required />
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Login użytkownika *</label>
+                <input type="text" name="username" class="form-control" placeholder="np. marek" required />
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Hasło *</label>
+                <input type="password" name="password" class="form-control" placeholder="••••••••" required />
+              </div>
+
+              <div class="mb-4">
+                <label class="form-label fw-semibold">Rola w systemie *</label>
+                <select name="role" class="form-select" required>
+                  <option value="employee" selected>Pracownik (Menu, Godziny, Rezerwacje)</option>
+                  <option value="owner">Właściciel (Pełny dostęp do wszystkiego)</option>
+                </select>
+              </div>
+
+              <button type="submit" class="btn btn-sarab w-100 py-2">
+                <i class="bi bi-person-plus me-1"></i> Utwórz konto
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<%- include('partials/footer') %>
