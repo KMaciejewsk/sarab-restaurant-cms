@@ -17,6 +17,14 @@ System składa się z dwóch ściśle zintegrowanych modułów:
 
 ---
 
+## 📑 Dokumentacja Projektowa (Overleaf)
+
+Sprawozdanie laboratoryjne z projektu jest tworzone w systemie LaTeX na platformie Overleaf:
+* 🔗 **Link do projektu w Overleaf:** [Otwórz sprawozdanie w Overleaf (edycja/podgląd)](https://www.overleaf.com/project/6ae8e5f2e5d370fa013d605f/share#333001d2effdd97667c001e3dc80ab66f4d02516b2ac002d)
+* 📄 **Kod źródłowy szablonu:** Plik szablonu LaTeX ze spisem treści i strukturą wymagań znajduje się lokalnie w repozytorium: [`docs/main.tex`](docs/main.tex).
+
+---
+
 ## 🚀 Szybki Start (Instrukcja dla członków zespołu)
 
 Aby uruchomić projekt lokalnie na swoim komputerze:

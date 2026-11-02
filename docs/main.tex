@@ -1,0 +1,291 @@
+\documentclass[12pt,a4paper]{article}
+
+% --- PAKIETY PODSTAWOWE I JĘZYK POLSKI ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[polish]{babel}
+\usepackage{lmodern}
+\usepackage{geometry}
+\geometry{
+    top=2.5cm,
+    bottom=2.5cm,
+    left=2.5cm,
+    right=2.5cm
+}
+
+% --- PAKIETY GRAFICZNE I TABELE ---
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{float}
+\usepackage{xcolor}
+
+% --- LISTINGI KODU ŹRÓDŁOWEGO ---
+\usepackage{listings}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.96,0.96,0.96}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{blue}\bfseries,
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2,
+    frame=single,
+    rulecolor=\color{lightgray}
+}
+\lstset{style=mystyle}
+
+% --- ODNOŚNIKI HYPERREF ---
+\usepackage[colorlinks=true, linkcolor=black, citecolor=blue, urlcolor=blue]{hyperref}
+
+% ========================================================
+% STRONA TYTUŁOWA
+% ========================================================
+\begin{document}
+
+\begin{titlepage}
+    \centering
+    \vspace*{1cm}
+    {\Large\textbf{POLITECHNIKA POZNAŃSKA}\par}
+    {\large Wydział Informatyki i Telekomunikacji\par}
+    {\large Instytut Informatyki – Zakład Systemów Informatycznych\par}
+    
+    \vspace{2.5cm}
+    {\huge\bfseries DOKUMENTACJA PROJEKTOWA\par}
+    \vspace{0.5cm}
+    {\Large\textbf{Dedykowany System Zarządzania Treścią (CMS) \\ dla Restauracji Gastronomicznej}\par}
+    \vspace{0.3cm}
+    {\large Projekt realizowany w technologii Node.js, Express, EJS i SQLite\par}
+    
+    \vspace{3cm}
+    \begin{minipage}{0.45\textwidth}
+        \begin{flushleft} \large
+            \textbf{Autorzy:}\\
+            Imię i Nazwisko 1 (nr indeksu)\\
+            Imię i Nazwisko 2 (nr indeksu)\\
+            Kierunek: Informatyka\\
+            Specjalność: ZTI (st. II stopnia)
+        \end{flushleft}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \begin{flushright} \large
+            \textbf{Prowadzący:}\\
+            dr inż. Michał Apolinarski\\
+            \vspace{0.5cm}
+            \textbf{Przedmiot:}\\
+            Systemy Zarządzania Treścią\\
+            Laboratorium
+        \end{flushright}
+    \end{minipage}
+
+    \vfill
+    {\large Poznań, 2026\par}
+\end{titlepage}
+
+% ========================================================
+% SPIS TREŚCI
+% ========================================================
+\tableofcontents
+\newpage
+
+% ========================================================
+% 1. CHARAKTERYSTYKA OGÓLNA PROJEKTU
+% ========================================================
+\section{Charakterystyka ogólna projektu}
+Celem projektu jest opracowanie i implementacja dedykowanego, wielofunkcyjnego systemu zarządzania treścią (Content Management System – CMS) dla restauracji gastronomicznej \textit{Sarab Restaurant}. 
+
+System rozwiązuje problem dynamicznego zarządzania informacjami w lokalu gastronomicznym, takimi jak:
+\begin{itemize}
+    \item bieżąca karta menu, ceny oraz aktywne \textbf{Danie Dnia},
+    \item obsługa rezerwacji stolików w czasie rzeczywistym,
+    \item publikacja i moderacja opinii klientów,
+    \item harmonogram godzin otwarcia lokalu,
+    \item prezentacja zespołu kucharzy oraz kanałów kontaktu z personelem.
+\end{itemize}
+
+Aplikacja składa się z dwóch powiązanych części: portalu publicznego dla klientów oraz bezpiecznego panelu administracyjnego z autoryzacją opartą na rolach (Role-Based Access Control – RBAC).
+
+% ========================================================
+% 2. WYMAGANIA SYSTEMU
+% ========================================================
+\section{Wymagania systemu}
+
+\subsection{Wymagania funkcjonalne z podziałem na aktorów}
+
+W systemie zidentyfikowano trzech głównych aktorów: \textbf{Gościa restauracji (Klienta)}, \textbf{Pracownika} oraz \textbf{Właściciela}.
+
+\begin{table}[H]
+\centering
+\small
+\begin{tabularx}{\textwidth}{lX}
+\toprule
+\textbf{Aktor} & \textbf{Wymagania funkcjonalne} \\
+\midrule
+\textbf{Gość (Klient)} & 
+\begin{itemize}
+    \item Przeglądanie karty dań z podziałem na kategorie (Burgery, Pizza, Kurczak, Wrapy, Desery, Makarony).
+    \item Podgląd szczegółów dania w oknie modalnym (kalorie, czas przygotowania, skład).
+    \item Składanie rezerwacji stolika poprzez interaktywny formularz.
+    \item Wystawianie ocen i opinii o lokalu (ocena w skali 1--5 gwiazdek).
+    \item Wysyłanie zapytań przez formularz kontaktowy.
+\end{itemize} \\
+\midrule
+\textbf{Pracownik} & 
+\begin{itemize}
+    \item Logowanie do panelu administracyjnego CMS z poziomu konta pracowniczego.
+    \item Dodawanie, edycja i usuwanie potraw w karcie menu (pełny CRUD).
+    \item Szybkie wyznaczanie i zmiana aktualnego \textbf{Dania Dnia} jednym kliknięciem.
+    \item Przeglądanie nadesłanych rezerwacji stolików oraz zmiana ich statusu (\textit{Oczekująca}, \textit{Potwierdzona}, \textit{Odrzucona}, \textit{Zakończona}).
+    \item Aktualizacja godzin otwarcia lokalu dla poszczególnych dni tygodnia.
+    \item Przeglądanie i obsługa wiadomości z formularza kontaktowego.
+\end{itemize} \\
+\midrule
+\textbf{Właściciel} & 
+\begin{itemize}
+    \item Posiadanie wszystkich uprawnień przypisanych do roli Pracownika.
+    \item Moderacja i zatwierdzanie opinii klientów przed ich publikacją na stronie.
+    \item Zarządzanie kontami użytkowników CMS (dodawanie nowych pracowników, usuwanie kont).
+    \item Edycja profilu szefów kuchni prezentowanych w witrynie.
+    \item Konfiguracja globalnych danych lokalu (telefon, e-mail, adres, hasło reklamowe).
+\end{itemize} \\
+\bottomrule
+\end{tabularx}
+\caption{Zestawienie wymagań funkcjonalnych z podziałem na aktorów}
+\end{table}
+
+\subsection{Wymagania pozafunkcjonalne}
+\begin{enumerate}
+    \item \textbf{Responsywność (RWD):} Zarówno portal klienta, jak i panel CMS muszą poprawnie skalować się na urządzeniach mobilnych, tabletach oraz desktopach (oparte na Bootstrap 5).
+    \item \textbf{Bezpieczeństwo sesji:} Ochrona tras administracyjnych przed nieautoryzowanym dostępem za pomocą middleware weryfikującego stan sesji HTTP (\texttt{express-session}) oraz poziom uprawnień roli.
+    \item \textbf{Wydajność bazy danych:} Zastosowanie synchronicznego i bezserwerowego sterownika \texttt{better-sqlite3}, eliminującego opóźnienia sieciowe związane z bazą.
+    \item \textbf{Wielojęzyczność i skalowalność:} Przygotowanie struktury szablonów pod łatwą internacjonalizację (I18n).
+\end{enumerate}
+
+% ========================================================
+% 3. ARCHITEKTURA SYSTEMU I TECHNOLOGIE
+% ========================================================
+\section{Architektura systemu i technologie}
+
+\subsection{Środowisko i stos technologiczny}
+Aplikacja została wykonana w architekturze wielowarstwowej zgodnie ze wzorcem \textbf{MVC (Model-View-Controller)}:
+\begin{itemize}
+    \item \textbf{Środowisko uruchomieniowe:} Node.js v22 (silnik JavaScript V8).
+    \item \textbf{Framework aplikacji backendowej:} Express.js v5.
+    \item \textbf{Silnik szablonów (Server-Side Rendering):} EJS (Embedded JavaScript).
+    \item \textbf{System zarządzania bazą danych:} SQLite z modułem \texttt{better-sqlite3}.
+    \item \textbf{Zarządzanie stanem i sesjami:} \texttt{express-session}.
+    \item \textbf{Interfejs graficzny:} HTML5, CSS3, Bootstrap 5.3, Bootstrap Icons, FontAwesome 6, biblioteki animacji (AOS, Swiper).
+\end{itemize}
+
+\subsection{Struktura organizacji plików}
+\begin{lstlisting}[language=bash, caption={Organizacja katalogów projektu}]
+Systemy Zarzadzania Trescia/
+|-- server.js               # Glowny kontroler aplikacji Express
+|-- package.json            # Zaleznosci i skrypty npm
+|-- database/               # MODEL: konfiguracja bazy, init.js i sqlite
+|-- routes/                 # KONTROLER: adminRoutes.js (CMS, ochrona rbac)
+|-- views/                  # WIDOKI (EJS):
+|   |-- client/             # 7 podstron klienta (Home, Menu, About, itd.)
+|   |   `-- partials/       # Wspolne elementy (header, footer, banner)
+|   `-- admin/              # Widoki CMS (dashboard, menu, rezerwacje, users)
+|-- client/                 # Statyczne assety klienta (CSS, JS, img)
+|-- admin/                  # Statyczne assety panelu AdminLTE v4
+`-- docs/                   # Dokumentacja projektu (sprawozdanie LaTeX)
+\end{lstlisting}
+
+% ========================================================
+% 4. SCHEMAT BAZY DANYCH
+% ========================================================
+\section{Schemat bazy danych}
+
+\subsection{Model relacyjny}
+Baza danych została zrealizowana w oparciu o system relacyjny SQLite z włączoną integralnością kluczy obcych (\texttt{PRAGMA foreign\_keys = ON}).
+
+Zdefiniowano następujące tabele:
+\begin{enumerate}
+    \item \textbf{users} (\underline{id}, username, password, full\_name, role, created\_at)
+    \item \textbf{categories} (\underline{id}, name, slug, item\_count\_label, image)
+    \item \textbf{menu\_items} (\underline{id}, category\_id $\rightarrow$ categories(id), name, description, price, old\_price, image, badge, calories, prep\_time, is\_dish\_of\_the\_day, is\_active)
+    \item \textbf{reservations} (\underline{id}, full\_name, phone, email, guests, reservation\_date, reservation\_time, special\_requests, status, created\_at)
+    \item \textbf{reviews} (\underline{id}, author\_name, role\_or\_city, rating, comment, is\_approved, created\_at)
+    \item \textbf{chefs} (\underline{id}, name, role, experience, image, bio)
+    \item \textbf{opening\_hours} (\underline{id}, day\_range, hours, is\_closed, sort\_order)
+    \item \textbf{contact\_messages} (\underline{id}, name, email, phone, subject, message, is\_read, created\_at)
+    \item \textbf{restaurant\_info} (\underline{key}, value)
+\end{enumerate}
+
+% ========================================================
+% 5. DIAGRAMY UML
+% ========================================================
+\section{Diagramy UML}
+
+\subsection{Diagram przypadków użycia (Use Case)}
+\textit{[W tym miejscu wklej wygenerowany diagram przypadków użycia dla Klienta, Pracownika i Właściciela]}.
+
+\subsection{Diagram klas / encji}
+\textit{[W tym miejscu wklej diagram klas przedstawiający encje modeli bazodanowych oraz ich powiązania]}.
+
+% ========================================================
+% 6. NAJWAŻNIEJSZE METODY I FRAGMENTY KODU
+% ========================================================
+\section{Najważniejsze metody i fragmenty kodu aplikacji}
+
+\subsection{Mechanizm autoryzacji i ochrony ról (RBAC)}
+\begin{lstlisting}[language=JavaScript, caption={Middleware sprawdzający uprawnienia Właściciela w routes/adminRoutes.js}]
+function requireOwner(req, res, next) {
+    if (!req.session.user || req.session.user.role !== 'owner') {
+        return res.status(403).send('Brak uprawnien. Sekcja dla Wlasciciela.');
+    }
+    next();
+}
+\end{lstlisting}
+
+\subsection{Logika przełączania Dania Dnia}
+\begin{lstlisting}[language=JavaScript, caption={Obsługa wyznaczania Dania Dnia z zerowaniem poprzedniego stanu}]
+router.post('/menu/toggle-daily/:id', (req, res) => {
+    const dish = db.prepare('SELECT is_dish_of_the_day FROM menu_items WHERE id = ?').get(req.params.id);
+    if (dish) {
+        if (dish.is_dish_of_the_day === 1) {
+            db.prepare('UPDATE menu_items SET is_dish_of_the_day = 0 WHERE id = ?').run(req.params.id);
+        } else {
+            db.prepare('UPDATE menu_items SET is_dish_of_the_day = 0').run();
+            db.prepare('UPDATE menu_items SET is_dish_of_the_day = 1 WHERE id = ?').run(req.params.id);
+        }
+    }
+    res.redirect('/admin/menu');
+});
+\end{lstlisting}
+
+% ========================================================
+% 7. PODSUMOWANIE I PODZIAŁ PRAC
+% ========================================================
+\section{Podsumowanie}
+
+\subsection{Podział prac w zespole}
+\begin{itemize}
+    \item \textbf{Autor 1:} Implementacja struktury aplikacji Express, pocięcie szablonów EJS, integracja bazy danych SQLite, wdrożenie panelu CMS AdminLTE.
+    \item \textbf{Autor 2:} Opracowanie dokumentacji projektowej LaTeX, przygotowanie diagramów UML i ERD, testy modułowe i formularzy.
+\end{itemize}
+
+\subsection{Perspektywa rozwoju}
+\begin{itemize}
+    \item Wdrożenie fizycznego uploadu plików ze skalowaniem zdjęć przy użyciu biblioteki \texttt{multer} i \texttt{sharp}.
+    \item Rozszerzenie modułu zamówień online o obsługę koszyka zakupowego i płatności internetowych.
+\end{itemize}
+
+\end{document}
